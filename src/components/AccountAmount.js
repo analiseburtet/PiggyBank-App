@@ -47,14 +47,14 @@ const styles =  StyleSheet.create({
         fontSize: 24,
         fontFamily: 'sans-serif',
         color: '#111111',
-        fontWeight: 900,
+        fontWeight: '900',
         paddingLeft: 6
     },
     negativeText: {
         fontSize: 24,
         fontFamily: 'sans-serif',
         color: '#E95420',
-        fontWeight: 900,
+        fontWeight: '900',
         paddingLeft: 6
     }
 })

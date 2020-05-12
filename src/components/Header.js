@@ -34,7 +34,7 @@ const styles =  StyleSheet.create({
         fontSize: 24,
         fontFamily: 'sans-serif',
         color: '#111111',
-        fontWeight: 900,
+        fontWeight: '900',
         paddingLeft: 10
     }
 })

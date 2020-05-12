@@ -1,14 +1,15 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import Header from './src/components/Header'
 import AccountAmount from './src/components/AccountAmount'
+import Form from './src/components/Form'
 
 export default function App() {
   return (
     <View style={styles.container}>
       <Header/>
       <AccountAmount/>
-      <Text>Open up App.js to start working on your app!</Text>
+      <Form/>
     </View>
   );
 }
