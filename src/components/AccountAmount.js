@@ -1,5 +1,5 @@
 import React from 'react'
-import { View, Text, Image, StyleSheet } from 'react-native'
+import { View, Text, Image, StyleSheet, TextInput } from 'react-native'
 
 const AccountAmount = () => {
     return(
@@ -8,9 +8,12 @@ const AccountAmount = () => {
                 style={styles.coin}
                 source={require('../../assets/coin.png')}
             />
-            <Text
-                 style={styles.text}
-            >$ 2.000</Text>
+            <View style={styles.inputBox}>
+                <TextInput
+                    style={styles.text}
+                    placeholder='$ 2.000'
+                />
+            </View>
              <Image
                 style={styles.coinfly}
                 source={require('../../assets/coinfly.png')}
@@ -48,7 +51,8 @@ const styles =  StyleSheet.create({
         fontFamily: 'sans-serif',
         color: '#111111',
         fontWeight: '900',
-        paddingLeft: 6
+        paddingLeft: 6,
+        
     },
     negativeText: {
         fontSize: 24,
@@ -56,5 +60,9 @@ const styles =  StyleSheet.create({
         color: '#E95420',
         fontWeight: '900',
         paddingLeft: 6
+    },
+    inputBox: {
+        flexShrink: 'inherit',
+        flex: 1
     }
 })
