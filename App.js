@@ -3,6 +3,7 @@ import { StyleSheet, View } from 'react-native';
 import Header from './src/components/Header'
 import AccountAmount from './src/components/AccountAmount'
 import Form from './src/components/Form'
+import BillContainer from './src/components/BillContainer'
 
 export default function App() {
   return (
@@ -10,6 +11,7 @@ export default function App() {
       <Header/>
       <AccountAmount/>
       <Form/>
+      <BillContainer/>
     </View>
   );
 }
