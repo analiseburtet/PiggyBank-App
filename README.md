@@ -1,4 +1,4 @@
-# PiggyBank-App
+# :pig2: :money_with_wings: PiggyBank-App :pig2: :money_with_wings:
 Bank app developed using React Native. Set cash amount, set new bill to be paid. Decrease total cash. Delete bill.
 
 ## UI
