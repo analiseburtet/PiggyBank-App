@@ -1,41 +1,34 @@
 import React from 'react'
-import { View, Text, Image, StyleSheet, SafeAreaView, FlatList } from 'react-native'
+import { View, Text, Image, StyleSheet, SafeAreaView, FlatList, TouchableOpacity } from 'react-native'
 
-const DATA = [
-    { key: '1', name: 'English Course', value: 100 },
-    { key: '2', name: 'English Course', value: 100 },
-    { key: '3', name: 'English Course', value: 100 }
-]
-
-function Item({ name, value }){
+function Item({ bill, onDelete }){
     return(
-        <View style={styles.container}>
+        <View style={styles.container} key={bill.key}>
             <Image
                 style={styles.bill}
                 source={require('../../assets/bill.png')}
             />
             <Text
                  style={styles.text}
-            >{name}</Text>
+            >{bill.name}</Text>
             <Text
                  style={styles.negativeText}
-            >$ {value}</Text>
-            <Image
-                style={styles.can}
-                source={require('../../assets/can.png')}
-            />
+            >$ {bill.money}</Text>
+            <TouchableOpacity onPress={() => onDelete(bill.key)}>
+                <Image style={styles.can} source={require("../../assets/can.png")} />
+            </TouchableOpacity>
         </View>
     )
 }
 
-const BillContainer = () => {
+const BillContainer = ({ data, onDelete }) => {
     return(
         <SafeAreaView>
             <FlatList
-                data={DATA}
+                data={data}
                 keyExtractor={(item) => item.key}
                 renderItem={({ item }) => (
-                    <Item name={item.name} value={item.value}/>
+                    <Item bill={item} onDelete={onDelete}/>
                 )}
             />
         </SafeAreaView>
