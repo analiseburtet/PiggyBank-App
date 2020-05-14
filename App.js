@@ -36,12 +36,24 @@ export default function App() {
     getData();
   }, []);
 
+
+  const deleteBill = async (key) => {
+    console.log(key)
+    try {
+      await AsyncStorage.removeItem(key);
+      const filteredData = data.filter((item) => item.key !== key);
+      setData(filteredData);
+    } catch (error) {
+      console.log(error, "imposible to delete item");
+    }
+  };
+
   return (
     <View style={styles.container}>
       <Header/>
       <AccountAmount updateNegativeBalance={updateNegativeBalance}/>
       <Form updateNegativeBalance={updateNegativeBalance}/>
-      <BillContainer data={data} />
+      <BillContainer onDelete={deleteBill} data={data} />
     </View>
   );
 }
