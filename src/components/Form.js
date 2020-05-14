@@ -1,22 +1,34 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { View, TouchableOpacity, TextInput, Text, StyleSheet } from 'react-native'
+import Moment from 'moment'
 
-const Form = () => {
+const Form = ({ updateNegativeBalance }) => {
+    const [ name, setName ] = useState()
+    const [ money, setMoney ] = useState()
+    
     return(
         <View style={styles.background}>
             <View>
                 <TextInput
                     style={styles.input}
                     placeholder="SPA day"
+                    onChangeText={(name) => setName(name)}
+                    value={name}
                 />
             </View>
             <View style={styles.row}>
                 <TextInput
                     style={styles.inputNumber}
                     placeholder="$ 300"
+                    onChangeText={(money) => setMoney(money)}
+                    value={money}
                 />
                 <TouchableOpacity
                     style={styles.button}
+                    onPress={() => {
+                        let id = Moment().unix().toString()
+                        updateNegativeBalance( id, name, money )
+                    }}
                 >
                     <Text style={styles.add}>Add</Text>
                 </TouchableOpacity>

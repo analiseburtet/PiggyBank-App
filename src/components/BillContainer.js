@@ -1,13 +1,7 @@
 import React from 'react'
 import { View, Text, Image, StyleSheet, SafeAreaView, FlatList } from 'react-native'
 
-const DATA = [
-    { key: '1', name: 'English Course', value: 100 },
-    { key: '2', name: 'English Course', value: 100 },
-    { key: '3', name: 'English Course', value: 100 }
-]
-
-function Item({ name, value }){
+function Item({ name, money }){
     return(
         <View style={styles.container}>
             <Image
@@ -19,7 +13,7 @@ function Item({ name, value }){
             >{name}</Text>
             <Text
                  style={styles.negativeText}
-            >$ {value}</Text>
+            >$ {money}</Text>
             <Image
                 style={styles.can}
                 source={require('../../assets/can.png')}
@@ -28,14 +22,14 @@ function Item({ name, value }){
     )
 }
 
-const BillContainer = () => {
+const BillContainer = ({data}) => {
     return(
         <SafeAreaView>
             <FlatList
-                data={DATA}
+                data={data}
                 keyExtractor={(item) => item.key}
                 renderItem={({ item }) => (
-                    <Item name={item.name} value={item.value}/>
+                    <Item name={item.name} value={item.money}/>
                 )}
             />
         </SafeAreaView>

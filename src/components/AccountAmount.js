@@ -1,7 +1,10 @@
-import React from 'react'
-import { View, Text, Image, StyleSheet, TextInput } from 'react-native'
+import React, { useState } from 'react'
+import { View, Image, StyleSheet, TextInput } from 'react-native'
 
-const AccountAmount = () => {
+const AccountAmount = ({ updateNegativeBalance }) => {
+    const [ positiveBalance, setPositiveBalance ] = useState()
+    const [ negativeBalance, setNegativeBalance ] = useState()
+
     return(
         <View style={styles.background}>
             <Image
@@ -12,15 +15,21 @@ const AccountAmount = () => {
                 <TextInput
                     style={styles.text}
                     placeholder='$ 2.000'
+                    onChangeText={(positiveBalance) => setPositiveBalance(positiveBalance)}
+                    value={positiveBalance}
                 />
             </View>
              <Image
                 style={styles.coinfly}
                 source={require('../../assets/coinfly.png')}
             />
-            <Text
-                 style={styles.negativeText}
-            >$ 100</Text>
+             <View style={styles.inputBox}>
+                <TextInput
+                    style={styles.negativeText}
+                    placeholder='$ 200'
+                    value={negativeBalance}
+                />
+            </View>
         </View>
     )
 }
@@ -62,7 +71,6 @@ const styles =  StyleSheet.create({
         paddingLeft: 6
     },
     inputBox: {
-        flexShrink: 'inherit',
         flex: 1
     }
 })
