@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { View, Image, StyleSheet, TextInput } from 'react-native'
 
-const AccountAmount = ({ updateNegativeBalance }) => {
+const AccountAmount = ({ accountBalance, updatePositiveBalance }) => {
     const [ positiveBalance, setPositiveBalance ] = useState()
     const [ negativeBalance, setNegativeBalance ] = useState()
 
@@ -15,7 +15,10 @@ const AccountAmount = ({ updateNegativeBalance }) => {
                 <TextInput
                     style={styles.text}
                     placeholder='$ 2.000'
-                    onChangeText={(positiveBalance) => setPositiveBalance(positiveBalance)}
+                    onChangeText={(positiveBalance) => {
+                        setPositiveBalance(positiveBalance)
+                        updatePositiveBalance(positiveBalance)
+                    }}
                     value={positiveBalance}
                 />
             </View>

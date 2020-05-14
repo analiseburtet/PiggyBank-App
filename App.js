@@ -8,6 +8,7 @@ import BillContainer from './src/components/BillContainer'
 
 export default function App() {
   const [data, setData] = useState([]);
+  const [ positiveValue, setPositiveValue ] = useState() 
 
   const updateNegativeBalance = async (id, name, money) => {
     const unixTimestamp = id;
@@ -16,6 +17,13 @@ export default function App() {
       JSON.stringify({ name, money })
     );
     setData([...data, { key: id, name, money }]);
+    let negativeValue = money
+    accountBalance(positiveValue, negativeValue)
+  }
+
+  const accountBalance = async ( positiveValue, negativeValue ) => {
+    let balance = positiveValue - negativeValue
+    return balance
   }
 
   useEffect(() => {
@@ -26,7 +34,6 @@ export default function App() {
           const finalValue = JSON.parse(name, money);
           return { key, ...finalValue };
         });
-        console.log(data);
       } catch (error) {
         console.log(error);
         data = [];
@@ -38,7 +45,6 @@ export default function App() {
 
 
   const deleteBill = async (key) => {
-    console.log(key)
     try {
       await AsyncStorage.removeItem(key);
       const filteredData = data.filter((item) => item.key !== key);
@@ -48,11 +54,15 @@ export default function App() {
     }
   };
 
+  const updatePositiveBalance = (positiveBalance) => {
+    setPositiveValue(positiveBalance)
+  }
+
   return (
     <View style={styles.container}>
       <Header/>
-      <AccountAmount updateNegativeBalance={updateNegativeBalance}/>
-      <Form updateNegativeBalance={updateNegativeBalance}/>
+      <AccountAmount accountBalance={accountBalance} updateNegativeBalance={updateNegativeBalance} updatePositiveBalance={updatePositiveBalance}/>
+      <Form accountBalance={accountBalance} updateNegativeBalance={updateNegativeBalance}/>
       <BillContainer onDelete={deleteBill} data={data} />
     </View>
   );
