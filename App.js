@@ -1,39 +1,39 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 import { AsyncStorage } from "react-native";
-import { StyleSheet, View } from 'react-native';
-import Header from './src/components/Header'
-import AccountAmount from './src/components/AccountAmount'
-import Form from './src/components/Form'
-import BillContainer from './src/components/BillContainer'
+import { StyleSheet, View } from "react-native";
+import Header from "./src/components/Header";
+import AccountAmount from "./src/components/AccountAmount";
+import Form from "./src/components/Form";
+import BillContainer from "./src/components/BillContainer";
+
+const VALOR_TOTAL_ID = "valor-total";
 
 export default function App() {
   const [data, setData] = useState([]);
-  const [ positiveValue, setPositiveValue ] = useState() 
+  const [moneyTotal, setMoneyTotal] = useState(0);
+  const [billTotal, setBillTotal] = useState(0);
 
-  const updateNegativeBalance = async (id, name, money) => {
+  const createNewBill = async (id, name, money) => {
     const unixTimestamp = id;
-    await AsyncStorage.setItem(
-      unixTimestamp,
-      JSON.stringify({ name, money })
-    );
+    await AsyncStorage.setItem(unixTimestamp, JSON.stringify({ name, money }));
     setData([...data, { key: id, name, money }]);
-    let negativeValue = money
-    accountBalance(positiveValue, negativeValue)
-  }
-
-  const accountBalance = async ( positiveValue, negativeValue ) => {
-    let balance = positiveValue - negativeValue
-    return balance
-  }
+    let currentBill = money;
+    const updatedTotalBill = billTotal + parseInt(currentBill, 10);
+    setBillTotal(updatedTotalBill);
+    await AsyncStorage.setItem(VALOR_TOTAL_ID, updatedTotalBill);
+  };
 
   useEffect(() => {
     const getData = async () => {
       let data = null;
       try {
-        data = (await displayData()).map(([key, name, money]) => {
+        const res = await displayData();
+        data = res.objects.map(([key, name, money]) => {
           const finalValue = JSON.parse(name, money);
           return { key, ...finalValue };
         });
+        console.log(res.valorTotal);
+        setBillTotal(parseInt(res.valorTotal || 0, 10));
       } catch (error) {
         console.log(error);
         data = [];
@@ -43,26 +43,31 @@ export default function App() {
     getData();
   }, []);
 
-
   const deleteBill = async (key) => {
     try {
-      await AsyncStorage.removeItem(key);
       const filteredData = data.filter((item) => item.key !== key);
       setData(filteredData);
+      await Promise.all([
+        AsyncStorage.removeItem(key),
+        AsyncStorage.setItem(VALOR_TOTAL_ID, billTotal),
+      ]);
+      setBillTotal(billTotal);
     } catch (error) {
       console.log(error, "imposible to delete item");
     }
   };
 
-  const updatePositiveBalance = (positiveBalance) => {
-    setPositiveValue(positiveBalance)
-  }
-
   return (
     <View style={styles.container}>
-      <Header/>
-      <AccountAmount accountBalance={accountBalance} updateNegativeBalance={updateNegativeBalance} updatePositiveBalance={updatePositiveBalance}/>
-      <Form accountBalance={accountBalance} updateNegativeBalance={updateNegativeBalance}/>
+      <Header />
+      <View style={{ flexDirection: "row", justifyContent: "space-around" }}>
+        <AccountAmount moneyTotal={moneyTotal} billTotal={billTotal} />
+        <AccountAmount moneyTotal={moneyTotal} billTotal={billTotal} />
+      </View>
+      <View style={{ flexDirection: "column" }}>
+        <AccountAmount moneyTotal={moneyTotal} billTotal={billTotal} />
+      </View>
+      <Form createNewBill={createNewBill} />
       <BillContainer onDelete={deleteBill} data={data} />
     </View>
   );
@@ -71,8 +76,8 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#F2F1F0',
-    flexDirection: 'column'
+    backgroundColor: "#F2F1F0",
+    flexDirection: "column",
   },
 });
 
@@ -85,7 +90,10 @@ const displayData = async () => {
       objects = await AsyncStorage.multiGet(
         keys.filter((key) => !!parseInt(key, 10))
       );
-      return objects;
+
+      const valorTotal = await AsyncStorage.getItem(VALOR_TOTAL_ID);
+
+      return { objects, valorTotal };
     } catch (error) {
       console.log(error);
     }
