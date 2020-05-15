@@ -14,11 +14,13 @@ function Item({ bill, onDelete }) {
     <View style={[styles.container]} key={bill.key}>
       <View style={{ flexDirection: "row", justifyContent: "space-evenly" }}>
         <Image style={styles.bill} source={require("../../assets/bill.png")} />
-        <View />
+        <View/>
+      </View>
+      <View>
         <Text style={styles.text}>{bill.name}</Text>
       </View>
       <View />
-      <Text style={styles.negativeText}>$ {bill.money}</Text>
+      <Text style={styles.negativeText}>R$ {bill.money}</Text>
       <View />
       <TouchableOpacity onPress={async () => await onDelete(bill.key)}>
         <Image style={styles.can} source={require("../../assets/can.png")} />
@@ -50,6 +52,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     marginHorizontal: 12,
     marginVertical: 6,
+    alignItems: 'center'
   },
   bill: {
     height: 30,

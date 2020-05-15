@@ -11,6 +11,7 @@ import Moment from "moment";
 const Form = ({ createNewBill }) => {
   const [name, setName] = useState();
   const [money, setMoney] = useState();
+  const [ error, setError ] = useState('')
 
   return (
     <View style={styles.background}>
@@ -22,18 +23,26 @@ const Form = ({ createNewBill }) => {
           value={name}
         />
       </View>
+      <Text style={styles.error}>{error}</Text>
       <View style={styles.row}>
         <TextInput
           style={styles.inputNumber}
-          placeholder="$ 300"
+          placeholder="R$ 300"
+          keyboardType="numeric"
           onChangeText={(money) => setMoney(money)}
           value={money}
         />
         <TouchableOpacity
           style={styles.button}
           onPress={() => {
-            let id = Moment().unix().toString();
-            createNewBill(id, name, money);
+            if(!name || !money){
+              setError('All fields are required.')
+            } else {
+              let id = Moment().unix().toString()
+              createNewBill(id, name, money)
+              setMoney('')
+              setName('')
+            }
           }}
         >
           <Text style={styles.add}>Add</Text>
@@ -85,4 +94,7 @@ const styles = StyleSheet.create({
     fontWeight: "900",
     fontSize: 18,
   },
+  error: {
+    color: 'red'
+  }
 });

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { View, Image, StyleSheet, TextInput, Text } from "react-native";
 
-const AccountAmount = ({ moneyTotal, billTotal }) => {
+const AccountAmount = ({ billTotal }) => {
   return (
     <View style={styles.background}>
       <View style={{ maxWidth: "30%" }}>

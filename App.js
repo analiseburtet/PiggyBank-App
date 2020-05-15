@@ -60,10 +60,6 @@ export default function App() {
   return (
     <View style={styles.container}>
       <Header />
-      <View style={{ flexDirection: "row", justifyContent: "space-around" }}>
-        <AccountAmount moneyTotal={moneyTotal} billTotal={billTotal} />
-        <AccountAmount moneyTotal={moneyTotal} billTotal={billTotal} />
-      </View>
       <View style={{ flexDirection: "column" }}>
         <AccountAmount moneyTotal={moneyTotal} billTotal={billTotal} />
       </View>
