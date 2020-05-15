@@ -20,7 +20,6 @@ export default Header
 const styles =  StyleSheet.create({
     background: {
         backgroundColor: '#77216F',
-        flex: 0.1,
         padding: 14,
         flexDirection: 'row',
         alignItems: 'center',
